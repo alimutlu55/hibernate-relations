@@ -1,17 +1,22 @@
 package com.hibernate.relations.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Address {
+@Table(name="address")
+public class Address implements Serializable {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    private long id;
    private String addressType;
    private String address;
-   @ManyToOne(fetch = FetchType.EAGER)
-   @JoinColumn(name = "customer_id", nullable = false)
+   @ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "customer_id")
+   @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
    private Customer customer;
 
     public Address() {
